@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    var languageCookie = Context.Request.Cookies[".AspNetCore.Culture"];
+}
+
+<link rel="stylesheet" href="~/css/jquery.dataTables.min.css" />
+
+<div class="container">
+    <table id="table_id" class="display">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Category</th>
+                <th>Event</th>
+                <th>Time</th>
+            </tr>
+        </thead>
+    </table>
+</div>
+
+
+<script src="~/js/jQuery3.3.1.js"></script>
+<script src="~/js/jquery.dataTables.min.js"></script>
+
+@section dataTable{
+    @if (languageCookie.Contains("tr"))
+    {
+        <script>
+            $(document).ready(function() {
+                $('#table_id').DataTable({
+                    ajax: {
+                        url: '/Home/ReadTurkish',
+                        method: 'POST'
+                    },
+                    processing: true,
+                    serverSide: true,
+                    filter: true,
+                    columns: [
+                        { data: 'id', name: 'Id' },
+                        { data: 'category', name: 'Category' },
+                        { data: 'time', name: 'Time' },
+                        { data: 'event', name: 'Event' }
+                    ]
+                });
+            });
+        </script>
+    }
+    else
+    {
+        <script>
+            $(document).ready(function() {
+                $('#table_id').DataTable({
+                    ajax: {
+                        url: '/Home/ReadItalian',
+                        method: 'POST'
+                    },
+                    processing: true,
+                    serverSide: true,
+                    filter: true,
+                    columns: [
+                        { data: 'id', name: 'Id' },
+                        { data: 'category', name: 'Category' },
+                        { data: 'time', name: 'Time' },
+                        { data: 'event', name: 'Event' }
+                    ]
+                });
+            });
+        </script>
+    }
+}
